@@ -74,3 +74,18 @@ npm start
 웹 서버가 제대로 동작하는지 확인하고자 웹 브라우저를 열고 http://localhost:4000 주소로 접속한다.
 앞 코드에서 05행이 실행되어 다음 화면처럼 JSON 포맷 데이터가 출력된다.
 ![4000](https://user-images.githubusercontent.com/58906858/142161596-044ba973-9d24-480e-bc8a-89a2f98d9543.png)
+
+## 라우팅 기능 구현
+
+웹 브라우저의 주소 창에서 http://localhost:4000/users/1/2 와 같은 경로로 접속했을 대 이를 처리하려면 코드를 다음과 같은 구조로 작성한다.
+```typescript
+app.get('/users/:skip/:limit', 라우터 콜백 함수)
+```
+
+skip과 limit 앞에 콜론(:)은 다음 코드로 경로에서 1과 2와 같은 값을 얻기 위해 사용한다.
+```typescript
+const {skip, limit} = req.params
+```
+
+index.ts 파일의 내용을 다음처럼 수정한다.
+
