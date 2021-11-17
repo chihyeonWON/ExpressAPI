@@ -1,0 +1,76 @@
+# 익스프레스로 API 서버 생성
+
+## 실습 프로젝트 구성
+
+이번 프로젝트는 앞선 Mongodb 프로젝트 구조에서 웹 서버를 구현하기 위해 express 패키지를 추가로 사용한다.
+이번 절에서 추가로 설치해야 할 패키지는 다음과 같다.
+```typescript
+npm i -S express body-parser cors
+npm i -D @types/express @types/body-parser @types/cors
+
+이번 절에서 사용하는 프로젝트의 package.json 파일로서, script 항목에 start 명령을 추가하였다.
+```typescript
+{
+  "name": "expressapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "chance": "^1.1.8",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mkdirp": "^1.0.4",
+    "mongodb": "^4.1.4",
+    "rimraf": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/chance": "^1.1.3",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/mkdirp": "^1.0.2",
+    "@types/mongodb": "^4.0.7",
+    "@types/node": "^16.11.7",
+    "@types/rimraf": "^3.0.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
+  }
+}
+```
+
+마지막으로 mongodb 프로젝트의 src 디렉토리에 있는 코드를 복사하면 준비가 끝난다.
+
+## REST 방식 서버
+
+REST(Representational State Transfer)는 HTTP 프로토콜의 주요 저자인 로이 필딩(Roy Fielding)의 2000년 박사 학위 논문에서 소개되었으며 1990년 말에 표준이 되었다.
+REST는 웹 서버 소프트웨어 구조의 한 형식이다. REST 서버는 HTTP 프로토콜의 GET, POST, PUT, DELETE와 같은 메서드를 사용해 웹 클라이언트와 통신하는 서버이다.
+
+## 익스프레스 프레임워크
+
+노드제이에스 환경에서 API 서버는 대부분 익스프레스(express) 프레임워크를 사용한다.
+익스프레스 프레임워크를 사용하면 다음 코드처럼 웹 서버를 쉽게 만들 수 있다.
+```typescript
+import express from 'express'
+const app = express(), port = 4000
+
+app
+  .get('/', (req, res) => res.json({message: 'Hello world!'}))
+  .listen(port, () => console.log('http://localhost:${port} started... '))
+```
+
+앞서 package.json 파일에 start 명령을 정의했으므로 터미널에서 간단하게 다음 명령으로 웹 서버를 동작시킬 수 있다.
+```typescript
+npm start
+```
+
+웹 서버가 제대로 동작하는지 확인하고자 웹 브라우저를 열고 http://localhost:4000 주소로 접속한다.
+앞 코드에서 05행이 실행되어 다음 화면처럼 JSON 포맷 데이터가 출력된다.
+![4000](https://user-images.githubusercontent.com/58906858/142161596-044ba973-9d24-480e-bc8a-89a2f98d9543.png)
