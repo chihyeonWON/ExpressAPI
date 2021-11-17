@@ -2,7 +2,7 @@
 
 ## 실습 프로젝트 구성
 
-이번 프로젝트는 앞선 Mongodb 프로젝트 구조에서 웹 서버를 구현하기 위해 express 패키지를 추가로 사용한다.
+이번 프로젝트는 앞선 MongoDB 프로젝트 구조에서 웹 서버를 구현하기 위해 express 패키지를 추가로 사용한다.
 이번 절에서 추가로 설치해야 할 패키지는 다음과 같다.
 ```typescript
 npm i -S express body-parser cors
