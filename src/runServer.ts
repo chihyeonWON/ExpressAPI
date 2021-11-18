@@ -10,7 +10,7 @@ export const runServer = (mongodb) => {
         .use(cors())
         .get('/', (req, res) => res.json({message: 'Hello world!'}))
         .get('/users/:skip/:limit', async (req, res) => {
-            const {skip, limmit} = req.params
+            const {skip, limit} = req.params
             
             const usersCollection = await mongodb.collection('users')
             const cursor = await usersCollection
