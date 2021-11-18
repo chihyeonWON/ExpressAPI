@@ -106,3 +106,68 @@ app
 skip과 limit 실제 값이 다음과 같이 출력된다.
 ![router](https://user-images.githubusercontent.com/58906858/142371710-acf0e034-e860-4ace-923a-8fccc60e5922.jpg)
 
+## 익스프레스 미들웨어 추가
+
+REST 방식의 API 서버들은 웹 페이지의 본문 내용을 분석하려고 할 때 bodyParser와 cors라는 패키지를 use메서드를 사용해 다음처럼 작성해야 한다.
+
+src/index.ts
+```typescript
+import bodyParser from 'body-parser'
+import cors from 'cors'
+
+app
+  .use(bodyParser.urlencoded({extended: true})
+  .use(cors())
+```
+
+## 몽고DB 연결
+
+몽고DB에 저장된 데이터를 실제로 서비스하려면, 다음 코드에서 보듯 몽고DB 서버에 접속하는 코드를 만들어야한다. 
+이 코드에서는 runServer를 구현하는 것이 관건이다.
+```typescript
+import {connect} from './mongodb/connect'
+import {runServer} from './runServer'
+
+connect()
+  .then( async(connection) => {
+    const db = await connection.db('mongodb')
+    return db
+  })
+  .then(runServer)
+  .catch((e: Error) => console.log(e.message))
+```
+
+앞 코드에서 runServer 함수는 다음처럼 구현한다.
+
+src/runServer.ts
+```typescript
+import express from 'express'
+import bodyParser from 'body-parser'
+import cors from 'cors'
+
+export const runServer = (mongodb) => {
+    const app = express(), port = 4000
+
+    app
+        .use(bodyParser.urlencoded({extended: true}))
+        .use(cors())
+        .get('/', (req, res) => res.json({message: 'Hello world!'}))
+        .get('/users/:skip/:limit', async (req, res) => {
+            const {skip, limit} = req.params
+            
+            const usersCollection = await mongodb.collection('users')
+            const cursor = await usersCollection
+                .find({})
+                .sort({name: 1})
+                .skip(parseInt(skip))
+                .limit(parseInt(limit))
+            const result = await cursor.toArray()
+            res.json(result)
+        })
+        .listen(port, () => console.log(`http://localhost:${port} started ...`))
+}
+```
+
+이 서버가 이제 API 서버로 동작하고 있음을 알 수 있다.
+
+이 프로젝트는 리액트와 부트스트랩으로 프런트엔드 웹 프로젝트로 이어진다. 
