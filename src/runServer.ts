@@ -21,5 +21,5 @@ export const runServer = (mongodb) => {
             const result = await cursor.toArray()
             res.json(result)
         })
-        .listen(port, () => console.log(`http://localhost:${post} started ...`))
+        .listen(port, () => console.log(`http://localhost:${port} started ...`))
 }
