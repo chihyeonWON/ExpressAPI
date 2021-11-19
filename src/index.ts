@@ -3,7 +3,7 @@ import {runServer} from './runServer'
 
 connect()
   .then( async(connection) => {
-    const db = await connection.db('mongodb')
+    const db = await connection.db("ch12-2")
     return db
   })
   .then(runServer)
